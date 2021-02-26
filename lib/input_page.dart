@@ -13,25 +13,6 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
   int _selectedIndex = 0;
   static const TextStyle optionStyle =
       TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
-  List<Widget> _widgetOptions = <Widget>[
-    Text(
-      'Index 0: Home',
-      style: optionStyle,
-    ),
-    Text(
-      'Index 1: Connect',
-      style: optionStyle,
-    ),
-    Game(),
-    Text(
-      'Index 3: Learn',
-      style: optionStyle,
-    ),
-    Text(
-      'Index 4: Settings',
-      style: optionStyle,
-    ),
-  ];
 
   void _onItemTapped(int index) {
     setState(() {
@@ -41,10 +22,38 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
 
   @override
   Widget build(BuildContext context) {
+    List<Widget> _widgetOptions = <Widget>[
+      Text(
+        'Index 0: Home',
+        style: optionStyle,
+      ),
+      Text(
+        'Index 1: Connect',
+        style: optionStyle,
+      ),
+      Column(mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[
+        Text('High Score: 9001'),
+        FlatButton(
+            color: Colors.teal,
+            onPressed: () {
+              Navigator.push(
+                  context, MaterialPageRoute(builder: (context) => Game()));
+            },
+            child: Text('Play Now'))
+      ]),
+      Text(
+        'Index 3: Learn',
+        style: optionStyle,
+      ),
+      Text(
+        'Index 4: Settings',
+        style: optionStyle,
+      ),
+    ];
     return Scaffold(
       appBar: AppBar(
         title: const Text('UFlow'),
-        backgroundColor: Colors.amber[800],
+        backgroundColor: Colors.teal,
       ),
       body: Center(
         child: _widgetOptions.elementAt(_selectedIndex),
@@ -74,7 +83,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
           ),
         ],
         currentIndex: _selectedIndex,
-        selectedItemColor: Colors.amber[800],
+        selectedItemColor: Colors.teal,
         onTap: _onItemTapped,
       ),
     );

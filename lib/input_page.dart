@@ -49,10 +49,10 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
       ),
     ];
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('UFlow'),
-        backgroundColor: Colors.teal,
-      ),
+      // appBar: AppBar(
+      //   title: const Text('UFlow'),
+      //   backgroundColor: Colors.teal,
+      // ),
       body: Center(
         child: _widgetOptions.elementAt(_selectedIndex),
       ),

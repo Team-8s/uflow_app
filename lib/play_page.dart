@@ -6,7 +6,6 @@ import 'game_files/barriers.dart';
 import 'game_files/bird.dart';
 import 'game_files/chipmunk.dart';
 import 'game_files/text_assets.dart';
-import 'input_page.dart';
 
 class Game extends StatefulWidget {
   @override
@@ -91,13 +90,8 @@ class PlayPage extends State<Game> {
                 chipmunkScore.toString()),
             actions: <Widget>[
               FlatButton(
-                child: Text('Play Again'),
+                child: Text('Home'),
                 onPressed: () {
-                  // birdYaxis = 0;
-                  // chipmunkYaxis = 1.10;
-                  // chipmunkScore = 0;
-                  // birdScore = 0;
-                  // startGame();
                   setState(() {
                     gameHasStarted = false;
                     birdYaxis = 0;

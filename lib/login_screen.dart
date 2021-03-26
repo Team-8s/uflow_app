@@ -18,7 +18,10 @@ class _LoginScreenState extends State<LoginScreen> {
     return Scaffold(
       body: SafeArea(
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            Text('UFlow App', style: TextStyle(fontSize: 75,fontWeight: FontWeight.bold)),
+
             TextField(
               onChanged: (value) {
                 setState(() {

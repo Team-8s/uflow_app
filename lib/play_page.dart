@@ -6,6 +6,7 @@ import 'game_files/barriers.dart';
 import 'game_files/bird.dart';
 import 'game_files/chipmunk.dart';
 import 'game_files/text_assets.dart';
+import 'input_page.dart';
 
 class Game extends StatefulWidget {
   @override
@@ -97,11 +98,11 @@ class PlayPage extends State<Game> {
                   // chipmunkScore = 0;
                   // birdScore = 0;
                   // startGame();
-                  initState();
                   setState(() {
                     gameHasStarted = false;
+                    Navigator.pushNamed(context, '/home');
                   });
-                  Navigator.of(context).pop();
+
                 },
               )
             ],

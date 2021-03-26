@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'play_page.dart';
+import 'pages/bluetooth_connect.dart';
 
 /// This is the stateful widget that the main application instantiates.
 class MyStatefulWidget extends StatefulWidget {
@@ -27,10 +28,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
         'Index 0: Home',
         style: optionStyle,
       ),
-      Text(
-        'Index 1: Connect',
-        style: optionStyle,
-      ),
+      bluetoothPage(),
       Column(mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[
         Text('High Score: 9001'),
         FlatButton(

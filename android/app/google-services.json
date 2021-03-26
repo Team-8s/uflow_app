@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "185120044434",
+    "project_id": "uflow-a41fb",
+    "storage_bucket": "uflow-a41fb.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:185120044434:android:7ca35fe3e460add1f1bd4b",
+        "android_client_info": {
+          "package_name": "team8s.uflow_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "185120044434-58hadqtaqjr4c2930jdq2pafjlqdmlj6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBvECGvsbEezGEkRKqBnVHGT0aSi8qYLEo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "185120044434-58hadqtaqjr4c2930jdq2pafjlqdmlj6.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -100,6 +100,8 @@ class PlayPage extends State<Game> {
                   // startGame();
                   setState(() {
                     gameHasStarted = false;
+                    birdYaxis = 0;
+                    chipmunkYaxis = 1.10;
                     Navigator.pushNamed(context, '/home');
                   });
 

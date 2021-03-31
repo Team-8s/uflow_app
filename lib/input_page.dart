@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'play_page.dart';
+import 'package:uflow_app/pages/settings_page.dart';
+import 'pages/play_page.dart';
 import 'pages/bluetooth_connect.dart';
 
 /// This is the stateful widget that the main application instantiates.
@@ -29,24 +30,12 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
         style: optionStyle,
       ),
       bluetoothPage(),
-      Column(mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[
-        Text('High Score: 9001'),
-        FlatButton(
-            color: Colors.teal,
-            onPressed: () {
-              Navigator.push(
-                  context, MaterialPageRoute(builder: (context) => Game()));
-            },
-            child: Text('Play Now'))
-      ]),
+      gamePage(),
       Text(
         'Index 3: Learn',
         style: optionStyle,
       ),
-      Text(
-        'Index 4: Settings',
-        style: optionStyle,
-      ),
+      settingsPage(),
     ];
     return Scaffold(
       // appBar: AppBar(

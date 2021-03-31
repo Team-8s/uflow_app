@@ -2,17 +2,121 @@ import 'dart:async';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'game_files/barriers.dart';
-import 'game_files/bird.dart';
-import 'game_files/chipmunk.dart';
-import 'game_files/text_assets.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import '../game_files/barriers.dart';
+import '../game_files/bird.dart';
+import '../game_files/chipmunk.dart';
+import '../game_files/text_assets.dart';
+
+class gamePage extends StatefulWidget {
+  @override
+  _gamePageState createState() => _gamePageState();
+}
+
+class _gamePageState extends State<gamePage> {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      color: Colors.blue,
+      width: double.infinity,
+      child: Container(
+        child:
+            Column(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: <
+                Widget>[
+          SizedBox(),
+          FlatButton(
+              color: Colors.white,
+              onPressed: () {
+                Navigator.push(
+                    context, MaterialPageRoute(builder: (context) => Game()));
+              },
+              child: Container(
+                margin: EdgeInsets.all(15.0),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                ),
+                height: 175,
+                width: 175,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Icon(
+                      FontAwesomeIcons.play,
+                      size: 50,
+                    ),
+                    SizedBox(
+                      height: 15,
+                    ),
+                    Text(
+                      'Play Now',
+                      style:
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+                    ),
+                  ],
+                ),
+              )),
+          SizedBox(),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Container(
+                height: 150,
+                width: 150,
+                margin: EdgeInsets.all(15.0),
+                color: Colors.white,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      'Bird High Score',
+                      style:
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 10),
+                    ),
+                    Text(
+                      '123',
+                      style:
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 50),
+                    )
+                  ],
+                ),
+              ),
+              SizedBox(
+                width: 30,
+              ),
+              Container(
+                height: 150,
+                width: 150,
+                margin: EdgeInsets.all(15.0),
+                color: Colors.white,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      'Chipmunk High Score',
+                      style:
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 10),
+                    ),
+                    Text(
+                      '123',
+                      style:
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 50),
+                    )
+                  ],
+                ),
+              ),
+            ],
+          )
+        ]),
+      ),
+    );
+  }
+}
 
 class Game extends StatefulWidget {
   @override
   PlayPage createState() => PlayPage();
 }
-
-
 
 class PlayPage extends State<Game> {
   static double birdYaxis = 0;
@@ -98,7 +202,6 @@ class PlayPage extends State<Game> {
                     chipmunkYaxis = 1.10;
                     Navigator.pushNamed(context, '/home');
                   });
-
                 },
               )
             ],
@@ -164,10 +267,10 @@ class PlayPage extends State<Game> {
                     child: gameHasStarted
                         ? Text("")
                         : Text(
-                      "T A P  T O  P L A Y",
-                      style:
-                      TextStyle(fontSize: 20.0, color: Colors.white),
-                    ),
+                            "T A P  T O  P L A Y",
+                            style:
+                                TextStyle(fontSize: 20.0, color: Colors.white),
+                          ),
                   ),
                 ],
               ),

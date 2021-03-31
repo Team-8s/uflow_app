@@ -4,6 +4,7 @@ import 'package:uflow_app/pages/home_page.dart';
 import 'package:uflow_app/pages/settings_page.dart';
 import 'pages/play_page.dart';
 import 'pages/bluetooth_connect.dart';
+import 'pages/results_page.dart';
 
 /// This is the stateful widget that the main application instantiates.
 class MyStatefulWidget extends StatefulWidget {

@@ -14,6 +14,8 @@ class gamePage extends StatefulWidget {
 }
 
 class _gamePageState extends State<gamePage> {
+  double birdHighScore = 0;
+  double chipmunkHighScore = 0;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -74,7 +76,7 @@ class _gamePageState extends State<gamePage> {
                           TextStyle(fontWeight: FontWeight.bold, fontSize: 10),
                     ),
                     Text(
-                      '123',
+                      birdHighScore.toString(),
                       style:
                           TextStyle(fontWeight: FontWeight.bold, fontSize: 50),
                     )
@@ -98,7 +100,7 @@ class _gamePageState extends State<gamePage> {
                           TextStyle(fontWeight: FontWeight.bold, fontSize: 10),
                     ),
                     Text(
-                      '123',
+                      chipmunkHighScore.toString(),
                       style:
                           TextStyle(fontWeight: FontWeight.bold, fontSize: 50),
                     )
@@ -124,6 +126,7 @@ class PlayPage extends State<Game> {
   static double birdScore = 0;
   static double chipmunkScore = 0;
   double time = 0;
+  double countDown = 10;
   double birdHeight = 0;
   double chipmunkHeight = 0;
   double initalBirdHeight = birdYaxis;
@@ -145,6 +148,7 @@ class PlayPage extends State<Game> {
     gameHasStarted = true;
     Timer.periodic(Duration(milliseconds: 50), (timer) {
       time += 0.04;
+      countDown -= 0.05;
       birdHeight = -4.9 * time * time + 2.8 * time;
       chipmunkHeight = sin(0.5 * time);
       print("time number is: $time");
@@ -175,9 +179,11 @@ class PlayPage extends State<Game> {
         }
       });
 
-      if (birdYaxis > 2) {
+      if (countDown < 0) {
         timer.cancel();
         _showGameOverScreen();
+        // if (birdScore > birdHighScore)
+        //   {birdHighScore = birdScore;}
       }
     });
   }
@@ -238,6 +244,7 @@ class PlayPage extends State<Game> {
                     duration: Duration(milliseconds: 0),
                     color: Colors.blue,
                   ),
+
                   AnimatedContainer(
                     alignment: Alignment(pathXone, pathYone),
                     duration: Duration(milliseconds: 0),
@@ -265,7 +272,7 @@ class PlayPage extends State<Game> {
                   Container(
                     alignment: Alignment(0, -0.35),
                     child: gameHasStarted
-                        ? Text("")
+                        ? Text(countDown.toString())
                         : Text(
                             "T A P  T O  P L A Y",
                             style:

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:uflow_app/pages/home_page.dart';
 import 'package:uflow_app/pages/settings_page.dart';
 import 'pages/play_page.dart';
 import 'pages/bluetooth_connect.dart';
@@ -25,10 +26,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
   @override
   Widget build(BuildContext context) {
     List<Widget> _widgetOptions = <Widget>[
-      Text(
-        'Index 0: Home',
-        style: optionStyle,
-      ),
+      homePage(),
       bluetoothPage(),
       gamePage(),
       Text(

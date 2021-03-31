@@ -147,7 +147,7 @@ class PlayPage extends State<Game> {
   void startGame() {
     gameHasStarted = true;
     Timer.periodic(Duration(milliseconds: 50), (timer) {
-      time += 0.04;
+      time += 0.01;
       countDown -= 0.05;
       birdHeight = -4.9 * time * time + 2.8 * time;
       chipmunkHeight = sin(0.5 * time);

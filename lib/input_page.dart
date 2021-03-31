@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'play_page.dart';
+import 'package:uflow_app/pages/home_page.dart';
+import 'package:uflow_app/pages/settings_page.dart';
+import 'pages/play_page.dart';
 import 'pages/bluetooth_connect.dart';
 import 'pages/results_page.dart';
 
@@ -25,29 +27,20 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
   @override
   Widget build(BuildContext context) {
     List<Widget> _widgetOptions = <Widget>[
+      homePage(),
+      bluetoothPage(),
+      gamePage(),
       Text(
-        'Index 0: Home',
+        'Index 3: Learn',
         style: optionStyle,
       ),
-      bluetoothPage(),
-      Column(mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[
-        Text('High Score: 9001'),
-        FlatButton(
-            color: Colors.teal,
-            onPressed: () {
-              Navigator.push(
-                  context, MaterialPageRoute(builder: (context) => Game()));
-            },
-            child: Text('Play Now'))
-      ]),
-      ResultsPage(),
-      Text('Settings'),
+      settingsPage(),
     ];
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('UFlow'),
-        backgroundColor: Colors.teal,
-      ),
+      // appBar: AppBar(
+      //   title: const Text('UFlow'),
+      //   backgroundColor: Colors.teal,
+      // ),
       body: Center(
         child: _widgetOptions.elementAt(_selectedIndex),
       ),

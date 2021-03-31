@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'play_page.dart';
 import 'pages/bluetooth_connect.dart';
+import 'pages/results_page.dart';
 
 /// This is the stateful widget that the main application instantiates.
 class MyStatefulWidget extends StatefulWidget {
@@ -39,14 +40,8 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
             },
             child: Text('Play Now'))
       ]),
-      Text(
-        'Index 3: Learn',
-        style: optionStyle,
-      ),
-      Text(
-        'Index 4: Settings',
-        style: optionStyle,
-      ),
+      ResultsPage(),
+      Text('Settings'),
     ];
     return Scaffold(
       appBar: AppBar(

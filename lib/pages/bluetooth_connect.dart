@@ -33,8 +33,13 @@ class _bluetoothPageState extends State<bluetoothPage> {
                 trailing: Text("RSSI: ${r.rssi}"),
                 onTap: () {
                   print("Connecting to ${r.device.name}...");
-                  r.device.connect();
-                  r.device.discoverServices();
+                  setState(() {
+                    uFlowDevice = r.device;
+                    uFlowDevice.connect();
+                    uFlowDevice.discoverServices();
+                  });
+                  
+
                 }),
           ));
         });
@@ -70,7 +75,7 @@ class _bluetoothPageState extends State<bluetoothPage> {
                         },
                         child: Text('Print services'),
                       ),
-                      Text('devices[0].name'),
+                      uFlowDevice != null ? Text(uFlowDevice.name) : Text('No device connected'),
                     ],
                   );
                 } else {

@@ -7,6 +7,7 @@ import '../game_files/barriers.dart';
 import '../game_files/bird.dart';
 import '../game_files/chipmunk.dart';
 import '../game_files/text_assets.dart';
+import 'calibration_page.dart';
 
 class gamePage extends StatefulWidget {
   @override
@@ -59,6 +60,15 @@ class _gamePageState extends State<gamePage> {
                 ),
               )),
           SizedBox(),
+              ElevatedButton(
+                style: ButtonStyle(
+                  backgroundColor:
+                  MaterialStateProperty.all<Color>(Colors.white),
+                ),
+                onPressed: () {
+                Navigator.push(
+                    context, MaterialPageRoute(builder: (context) => calibrationPage()));
+              }, child: Text('Calibration', style: TextStyle(color: Colors.black)),),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -83,9 +93,8 @@ class _gamePageState extends State<gamePage> {
                   ],
                 ),
               ),
-              SizedBox(
-                width: 30,
-              ),
+
+
               Container(
                 height: 150,
                 width: 150,

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class homePage extends StatefulWidget {
   @override
@@ -6,6 +7,7 @@ class homePage extends StatefulWidget {
 }
 
 class _homePageState extends State<homePage> {
+  String now = DateFormat("yyyy-MM-dd").format(DateTime.now());
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -19,6 +21,12 @@ class _homePageState extends State<homePage> {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   Container(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(now, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30),),
+                      ],
+                    ),
                     width: 175,
                     height: 100,
                     decoration: BoxDecoration(
@@ -35,9 +43,9 @@ class _homePageState extends State<homePage> {
               SizedBox(),
               Container(
                 width: double.infinity,
-                height: 350,
+                height: 300,
                 child: Text(
-                  'Hello',
+                  'Hello, Person with a Peeing Disorder',
                   style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
                 ),
                 margin: EdgeInsets.all(15.0),
@@ -47,6 +55,19 @@ class _homePageState extends State<homePage> {
                 ),
               ),
               SizedBox(),
+              Container(
+                child: Text(
+                  'Next Therapy Session: 09 Hours and 32 Minutes',
+                  style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+                ),
+                width: double.infinity,
+                height: 100,
+                margin: EdgeInsets.all(15.0),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(10.0),
+
+                ),),
             ]),
       ),
     );

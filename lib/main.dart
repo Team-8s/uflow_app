@@ -60,12 +60,15 @@ class CalibrationData with ChangeNotifier {
   int _floorValueEmg2 = 1000;
   int _ceilingValueEmg1 = 0;
   int _ceilingValueEmg2 = 0;
+  bool _calibrated = false;
+
   CalibrationData({floorValueEmg1, floorValueEmg2, ceilingValueEmg1, ceilingValueEmg2});
 
   get floorValueEmg1 => _floorValueEmg1;
   get floorValueEmg2 => _floorValueEmg2;
   get ceilingValueEmg1 => _ceilingValueEmg1;
   get ceilingValueEmg2 => _ceilingValueEmg2;
+  get calibrated => _calibrated;
 
   set floorValueEmg1(int value){
     _floorValueEmg1 = value;
@@ -81,6 +84,10 @@ class CalibrationData with ChangeNotifier {
   }
   set ceilingValueEmg2(int value){
     _ceilingValueEmg2 = value;
+    notifyListeners();
+  }
+  set calibrated(bool value){
+    _calibrated = value;
     notifyListeners();
   }
 }

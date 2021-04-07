@@ -8,6 +8,8 @@ import '../game_files/bird.dart';
 import '../game_files/chipmunk.dart';
 import '../game_files/text_assets.dart';
 import 'calibration_page.dart';
+import 'package:provider/provider.dart';
+import 'package:uflow_app/main.dart';
 
 class gamePage extends StatefulWidget {
   @override
@@ -19,6 +21,7 @@ class _gamePageState extends State<gamePage> {
   double chipmunkHighScore = 0;
   @override
   Widget build(BuildContext context) {
+    var currentData = Provider.of<EMGData>(context);
     return Container(
       color: Colors.blue,
       width: double.infinity,
@@ -52,7 +55,7 @@ class _gamePageState extends State<gamePage> {
                       height: 15,
                     ),
                     Text(
-                      'Play Now',
+                      currentData.emg1.toString(),
                       style:
                           TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
                     ),
@@ -86,7 +89,7 @@ class _gamePageState extends State<gamePage> {
                           TextStyle(fontWeight: FontWeight.bold, fontSize: 10),
                     ),
                     Text(
-                      birdHighScore.toString(),
+                      'Play Now',
                       style:
                           TextStyle(fontWeight: FontWeight.bold, fontSize: 50),
                     )

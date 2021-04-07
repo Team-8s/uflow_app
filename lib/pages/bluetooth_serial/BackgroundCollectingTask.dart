@@ -48,10 +48,10 @@ class BackgroundCollectingTask extends Model {
   BackgroundCollectingTask._fromConnection(this._connection, BuildContext context) {
     _connection.input.listen((data) {
       myBuffer += data;
-      print('-----Data recieved-----');
-      print('Number of bytes: ${data.length}');
-      print('Data: $data');
-      print('Buffer length: ${myBuffer.length}');
+      // print('-----Data recieved-----');
+      // print('Number of bytes: ${data.length}');
+      // print('Data: $data');
+      // print('Buffer length: ${myBuffer.length}');
       _buffer += data;
       
 
@@ -61,7 +61,7 @@ class BackgroundCollectingTask extends Model {
 
         emg1Data = int.parse(AsciiDecoder().convert(myBuffer.sublist(0, 3)));
         emg2Data = int.parse(AsciiDecoder().convert(myBuffer.sublist(3, 6)));
-        print(myBuffer);
+        // print(myBuffer);
         print('EMG1: ${ascii.decode(myBuffer.sublist(0, 3))}');
         print('EMG2: ${ascii.decode(myBuffer.sublist(3, 6))}');
         myBuffer.clear();
@@ -90,7 +90,7 @@ class BackgroundCollectingTask extends Model {
       //   }
       // }
     }).onDone(() {
-      inProgress = true;
+      inProgress = false;
       notifyListeners();
     });
   }

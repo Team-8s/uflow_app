@@ -212,13 +212,16 @@ class PlayPage extends State<Game> {
                 chipmunkScore.toString()),
             actions: <Widget>[
               FlatButton(
-                child: Text('Home'),
+                child: Text('Done'),
                 onPressed: () {
                   setState(() {
                     gameHasStarted = false;
                     birdYaxis = 0;
                     chipmunkYaxis = 1.10;
-                    Navigator.pushNamed(context, '/home');
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => gamePage()));
                   });
                 },
               )

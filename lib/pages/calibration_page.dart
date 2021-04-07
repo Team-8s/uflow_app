@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'dart:math';
+import 'package:provider/provider.dart';
 
 import 'package:uflow_app/pages/play_page.dart';
+import 'package:uflow_app/main.dart';
 
 class calibrationPage extends StatefulWidget {
   @override
@@ -13,7 +15,11 @@ class _calibrationPageState extends State<calibrationPage> {
   bool calibrationHasStarted = false;
   bool isFlexed = false;
   double time = 0;
-  double countDown = 20;
+  double countDown = 20;x
+  int floorValueEmg1 = 1000;
+  int floorValueEmg2 = 1000;
+  int ceilingValueEmg1 = 0;
+  int ceilingValueEmg2 = 0;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -47,7 +53,7 @@ class _calibrationPageState extends State<calibrationPage> {
                     SizedBox(),
                     RaisedButton(
                         onPressed: () {
-                          startCalibration();
+                          startCalibration(context);
                         },
                         child: Text(countDown.toString())),
                     AnimatedContainer(
@@ -103,7 +109,9 @@ class _calibrationPageState extends State<calibrationPage> {
     );
   }
 
-  void startCalibration() {
+  void startCalibration(BuildContext context) {
+    var calData = Provider.of<CalibrationData>(context, listen: false);
+    var sensorData = Provider.of<EMGData>(context, listen: false);
     calibrationHasStarted = true;
     Timer.periodic(Duration(milliseconds: 50), (timer) {
       time += 0.01;
@@ -111,16 +119,33 @@ class _calibrationPageState extends State<calibrationPage> {
       if (countDown > 10) {
         setState(() {
           isFlexed = false;
+          if (floorValueEmg1 < sensorData.emg1){
+            floorValueEmg1 = sensorData.emg1;
+          }
+          if (floorValueEmg2 < sensorData.emg2){
+            floorValueEmg2 = sensorData.emg2;
+          }
         });
       }
       if (countDown < 10 && countDown > 0) {
         setState(() {
           isFlexed = true;
+          if (ceilingValueEmg1 < sensorData.emg1){
+            ceilingValueEmg1 = sensorData.emg1;
+          }
+          if (ceilingValueEmg2 < sensorData.emg2){
+            ceilingValueEmg2 = sensorData.emg2;
+          }
         });
       }
       if (countDown < 0) {
+        calData.floorValueEmg1 = ceilingValueEmg1;
+        calData.floorValueEmg2 = ceilingValueEmg2;
+        calData.ceilingValueEmg1 = ceilingValueEmg1;
+        calData.ceilingValueEmg2 = ceilingValueEmg2;
         setState(() {
           isFlexed = false;
+
           timer.cancel();
           countDown = 20;
         });

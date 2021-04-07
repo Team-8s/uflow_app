@@ -38,6 +38,7 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider<EMGData>(create: (_) => EMGData(),),
+        ChangeNotifierProvider<CalibrationData>(create: (_) => CalibrationData(),),
       ],
           child: MaterialApp(
         
@@ -51,6 +52,36 @@ class MyApp extends StatelessWidget {
         },
       ),
     );
+  }
+}
+
+class CalibrationData with ChangeNotifier {
+  int _floorValueEmg1 = 1000;
+  int _floorValueEmg2 = 1000;
+  int _ceilingValueEmg1 = 0;
+  int _ceilingValueEmg2 = 0;
+  CalibrationData({floorValueEmg1, floorValueEmg2, ceilingValueEmg1, ceilingValueEmg2});
+
+  get floorValueEmg1 => _floorValueEmg1;
+  get floorValueEmg2 => _floorValueEmg2;
+  get ceilingValueEmg1 => _ceilingValueEmg1;
+  get ceilingValueEmg2 => _ceilingValueEmg2;
+
+  set floorValueEmg1(int value){
+    _floorValueEmg1 = value;
+    notifyListeners();
+  }
+  set floorValueEmg2(int value){
+    _floorValueEmg2 = value;
+    notifyListeners();
+  }
+  set ceilingValueEmg1(int value){
+    _ceilingValueEmg1 = value;
+    notifyListeners();
+  }
+  set ceilingValueEmg2(int value){
+    _ceilingValueEmg2 = value;
+    notifyListeners();
   }
 }
 

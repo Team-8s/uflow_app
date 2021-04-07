@@ -89,11 +89,8 @@ class _calibrationPageState extends State<calibrationPage> {
                     ),
                     RaisedButton(
                         onPressed: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => gamePage()));
-                        },
+                          Navigator.pop(context);
+                          },
                         child: Text('Done'),
                     ),],
                 ),

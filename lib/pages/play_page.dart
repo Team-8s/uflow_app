@@ -331,8 +331,8 @@ class PlayPage extends State<Game> {
     });
   }
 
-  void startGame(BuildContext context) {
-    var calData = Provider.of<CalibrationData>(context);
+  void startGame() {
+
     gameHasStarted = true;
     Timer.periodic(Duration(milliseconds: 50), (timer) {
       time += 0.01;

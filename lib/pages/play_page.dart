@@ -232,53 +232,53 @@ class _gamePageState extends State<gamePage> {
                     : null,
               ),
             ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Container(
-                height: 150,
-                width: 150,
-                margin: EdgeInsets.all(15.0),
-                color: Colors.white,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      'Bird High Score',
-                      style:
-                          TextStyle(fontWeight: FontWeight.bold, fontSize: 10),
-                    ),
-                    Text(
-                      'Play Now',
-                      style:
-                          TextStyle(fontWeight: FontWeight.bold, fontSize: 50),
-                    )
-                  ],
-                ),
-              ),
-              Container(
-                height: 150,
-                width: 150,
-                margin: EdgeInsets.all(15.0),
-                color: Colors.white,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      'Chipmunk High Score',
-                      style:
-                          TextStyle(fontWeight: FontWeight.bold, fontSize: 10),
-                    ),
-                    Text(
-                      chipmunkHighScore.toString(),
-                      style:
-                          TextStyle(fontWeight: FontWeight.bold, fontSize: 50),
-                    )
-                  ],
-                ),
-              ),
-            ],
-          )
+          // Row(
+          //   mainAxisAlignment: MainAxisAlignment.center,
+          //   children: [
+          //     Container(
+          //       height: 150,
+          //       width: 150,
+          //       margin: EdgeInsets.all(15.0),
+          //       color: Colors.white,
+          //       child: Column(
+          //         mainAxisAlignment: MainAxisAlignment.center,
+          //         children: [
+          //           Text(
+          //             'Bird High Score',
+          //             style:
+          //                 TextStyle(fontWeight: FontWeight.bold, fontSize: 10),
+          //           ),
+          //           Text(
+          //             'Play Now',
+          //             style:
+          //                 TextStyle(fontWeight: FontWeight.bold, fontSize: 50),
+          //           )
+          //         ],
+          //       ),
+          //     ),
+          //     Container(
+          //       height: 150,
+          //       width: 150,
+          //       margin: EdgeInsets.all(15.0),
+          //       color: Colors.white,
+          //       child: Column(
+          //         mainAxisAlignment: MainAxisAlignment.center,
+          //         children: [
+          //           Text(
+          //             'Chipmunk High Score',
+          //             style:
+          //                 TextStyle(fontWeight: FontWeight.bold, fontSize: 10),
+          //           ),
+          //           Text(
+          //             chipmunkHighScore.toString(),
+          //             style:
+          //                 TextStyle(fontWeight: FontWeight.bold, fontSize: 50),
+          //           )
+          //         ],
+          //       ),
+          //     ),
+          //   ],
+          // )
         ]),
       ),
     );
@@ -293,6 +293,7 @@ class Game extends StatefulWidget {
 }
 
 class PlayPage extends State<Game> {
+
   static double birdYaxis = 0;
   static double chipmunkYaxis = 1.10;
   static double birdScore = 0;
@@ -316,8 +317,8 @@ class PlayPage extends State<Game> {
     });
   }
 
-  void startGame() {
-
+  void startGame(BuildContext context) {
+    var calData = Provider.of<CalibrationData>(context);
     gameHasStarted = true;
     Timer.periodic(Duration(milliseconds: 50), (timer) {
       time += 0.01;

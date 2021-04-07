@@ -130,6 +130,7 @@ class _gamePageState extends State<gamePage> {
   @override
   Widget build(BuildContext context) {
     var currentData = Provider.of<EMGData>(context);
+    var calData = Provider.of<CalibrationData>(context);
     return Container(
       color: Colors.blue,
       width: double.infinity,
@@ -215,16 +216,29 @@ class _gamePageState extends State<gamePage> {
             ),
             ListTile(
               title: RaisedButton(
-                child: const Text('View background collected data'),
+                child: const Text('Calibrate'),
                 onPressed: (_collectingTask != null)
                     ? () {
                         Navigator.of(context).push(
                           MaterialPageRoute(
                             builder: (context) {
-                              return ScopedModel<BackgroundCollectingTask>(
-                                model: _collectingTask,
-                                child: BackgroundCollectedPage(),
-                              );
+                              return calibrationPage();
+                            },
+                          ),
+                        );
+                      }
+                    : null,
+              ),
+            ),
+            ListTile(
+              title: RaisedButton(
+                child: const Text('Play Game'),
+                onPressed: (_collectingTask != null && calData.calibrated)
+                    ? () {
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) {
+                              return gamePage();
                             },
                           ),
                         );

@@ -15,7 +15,7 @@ class _calibrationPageState extends State<calibrationPage> {
   bool calibrationHasStarted = false;
   bool isFlexed = false;
   double time = 0;
-  double countDown = 20;x
+  double countDown = 20;
   int floorValueEmg1 = 1000;
   int floorValueEmg2 = 1000;
   int ceilingValueEmg1 = 0;
@@ -89,11 +89,8 @@ class _calibrationPageState extends State<calibrationPage> {
                     ),
                     RaisedButton(
                         onPressed: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => gamePage()));
-                        },
+                          Navigator.pop(context);
+                          },
                         child: Text('Done'),
                     ),],
                 ),

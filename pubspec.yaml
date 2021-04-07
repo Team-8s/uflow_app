@@ -31,12 +31,12 @@ dependencies:
   cupertino_icons: ^1.0.0
   font_awesome_flutter: ^8.4.0
   flutter_blue: ^0.7.3
-<<<<<<< HEAD
+
   flutter_bluetooth_serial: ^0.2.2
   fl_chart: ^0.20.0
-=======
+
   intl: ^0.17.0
->>>>>>> d640a8a243ecd6b41794fac7fa6db6b121d95986
+
 
 dev_dependencies:
   flutter_test:

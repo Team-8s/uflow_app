@@ -125,8 +125,6 @@ class _gamePageState extends State<gamePage> {
     super.dispose();
   }
 
-  
-
   @override
   Widget build(BuildContext context) {
     var currentData = Provider.of<EMGData>(context);
@@ -139,167 +137,88 @@ class _gamePageState extends State<gamePage> {
             Column(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: <
                 Widget>[
           SizedBox(),
-          FlatButton(
-              color: Colors.white,
-              onPressed: () {
-                Navigator.push(
-                    context, MaterialPageRoute(builder: (context) => Game()));
-              },
-              child: Container(
-                margin: EdgeInsets.all(15.0),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                ),
-                height: 175,
-                width: 175,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Icon(
-                      FontAwesomeIcons.play,
-                      size: 50,
-                    ),
-                    SizedBox(
-                      height: 15,
-                    ),
-                    Text(
-                      currentData.emg1.toString(),
-                      style:
-                          TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
-                    ),
-                  ],
-                ),
-              )),
-          SizedBox(),
-          ElevatedButton(
-            style: ButtonStyle(
-              backgroundColor: MaterialStateProperty.all<Color>(Colors.white),
-            ),
-            onPressed: () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => calibrationPage()));
-            },
-            child: Text('Calibration', style: TextStyle(color: Colors.black)),
-          ),
           ListTile(
-              title: RaisedButton(
-                child: ((_collectingTask != null && _collectingTask.inProgress)
-                    ? const Text('Disconnect and stop background collecting')
-                    : const Text('Connect to start background collecting')),
-                onPressed: () async {
-                  if (_collectingTask != null && _collectingTask.inProgress) {
-                    await _collectingTask.cancel();
+            title: RaisedButton(
+              child: ((_collectingTask != null && _collectingTask.inProgress)
+                  ? const Text('Disconnect and stop background collecting')
+                  : const Text('Connect to start background collecting')),
+              onPressed: () async {
+                if (_collectingTask != null && _collectingTask.inProgress) {
+                  await _collectingTask.cancel();
+                  setState(() {
+                    /* Update for `_collectingTask.inProgress` */
+                  });
+                } else {
+                  final BluetoothDevice selectedDevice =
+                      await Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) {
+                        return SelectBondedDevicePage(checkAvailability: false);
+                      },
+                    ),
+                  );
+
+                  if (selectedDevice != null) {
+                    await _startBackgroundTask(context, selectedDevice);
                     setState(() {
                       /* Update for `_collectingTask.inProgress` */
                     });
-                  } else {
-                    final BluetoothDevice selectedDevice =
-                        await Navigator.of(context).push(
-                      MaterialPageRoute(
-                        builder: (context) {
-                          return SelectBondedDevicePage(
-                              checkAvailability: false);
-                        },
-                      ),
-                    );
-
-                    if (selectedDevice != null) {
-                      await _startBackgroundTask(context, selectedDevice);
-                      setState(() {
-                        /* Update for `_collectingTask.inProgress` */
-                      });
-                    }
                   }
-                },
+                }
+              },
+            ),
+          ),
+          ListTile(
+            title: RaisedButton(
+              child: const Text('Calibrate'),
+              onPressed: (_collectingTask != null)
+                  ? () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) {
+                            return calibrationPage();
+                          },
+                        ),
+                      );
+                    }
+                  : null,
+            ),
+          ),
+          Card(
+            child: Container(
+              height: 100.0,
+              width: 240.0,
+              padding: EdgeInsets.all(8.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Text('Play Game', style: TextStyle(fontSize: 24.0),),
+                  Icon(Icons.play_arrow, size: 55.0,),
+                ],
               ),
             ),
-            ListTile(
-              title: RaisedButton(
-                child: const Text('Calibrate'),
-                onPressed: (_collectingTask != null)
-                    ? () {
-                        Navigator.of(context).push(
-                          MaterialPageRoute(
-                            builder: (context) {
-                              return calibrationPage();
-                            },
-                          ),
-                        );
-                      }
-                    : null,
-              ),
+          ),
+          ListTile(
+            title: RaisedButton(
+              child: const Text('Play Game'),
+              onPressed: (_collectingTask != null && calData.calibrated)
+                  ? () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) {
+                            return gamePage();
+                          },
+                        ),
+                      );
+                    }
+                  : null,
             ),
-            ListTile(
-              title: RaisedButton(
-                child: const Text('Play Game'),
-                onPressed: (_collectingTask != null && calData.calibrated)
-                    ? () {
-                        Navigator.of(context).push(
-                          MaterialPageRoute(
-                            builder: (context) {
-                              return gamePage();
-                            },
-                          ),
-                        );
-                      }
-                    : null,
-              ),
-            ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Container(
-                height: 150,
-                width: 150,
-                margin: EdgeInsets.all(15.0),
-                color: Colors.white,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      'Bird High Score',
-                      style:
-                          TextStyle(fontWeight: FontWeight.bold, fontSize: 10),
-                    ),
-                    Text(
-                      'Play Now',
-                      style:
-                          TextStyle(fontWeight: FontWeight.bold, fontSize: 50),
-                    )
-                  ],
-                ),
-              ),
-              Container(
-                height: 150,
-                width: 150,
-                margin: EdgeInsets.all(15.0),
-                color: Colors.white,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      'Chipmunk High Score',
-                      style:
-                          TextStyle(fontWeight: FontWeight.bold, fontSize: 10),
-                    ),
-                    Text(
-                      chipmunkHighScore.toString(),
-                      style:
-                          TextStyle(fontWeight: FontWeight.bold, fontSize: 50),
-                    )
-                  ],
-                ),
-              ),
-            ],
-          )
+          ),
         ]),
       ),
     );
   }
 }
-
-
 
 class Game extends StatefulWidget {
   @override
@@ -331,7 +250,6 @@ class PlayPage extends State<Game> {
   }
 
   void startGame() {
-
     gameHasStarted = true;
     Timer.periodic(Duration(milliseconds: 50), (timer) {
       time += 0.01;
@@ -393,10 +311,8 @@ class PlayPage extends State<Game> {
                     gameHasStarted = false;
                     birdYaxis = 0;
                     chipmunkYaxis = 1.10;
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => gamePage()));
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => gamePage()));
                   });
                 },
               )

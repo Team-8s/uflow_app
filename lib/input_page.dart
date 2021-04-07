@@ -30,7 +30,6 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
   Widget build(BuildContext context) {
     List<Widget> _widgetOptions = <Widget>[
       homePage(),
-      MainPage(),
       gamePage(),
       Text(
         'Index 3: Learn',
@@ -52,10 +51,6 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
           BottomNavigationBarItem(
             icon: Icon(FontAwesomeIcons.home),
             label: 'Home',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(FontAwesomeIcons.bluetooth),
-            label: 'Connect',
           ),
           BottomNavigationBarItem(
             icon: Icon(FontAwesomeIcons.play),

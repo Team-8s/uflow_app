@@ -30,13 +30,13 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.0
   font_awesome_flutter: ^8.4.0
-  flutter_blue: ^0.7.3
-
+  # flutter_blue: ^0.7.3
   flutter_bluetooth_serial: ^0.2.2
   fl_chart: ^0.20.0
-
   intl: ^0.17.0
-
+  scoped_model: ^1.1.0
+  # flutter_reactive_ble: ^3.0.0
+  provider: ^5.0.0
 
 dev_dependencies:
   flutter_test:

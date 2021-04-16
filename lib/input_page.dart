@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:uflow_app/pages/bluetooth_serial/MainPage.dart';
 import 'package:uflow_app/pages/home_page.dart';
 import 'package:uflow_app/pages/settings_page.dart';
 import 'pages/play_page.dart';
 import 'pages/bluetooth_connect.dart';
 import 'pages/results_page.dart';
+import 'pages/blutooth_serial.dart';
 
 /// This is the stateful widget that the main application instantiates.
 class MyStatefulWidget extends StatefulWidget {
@@ -28,7 +30,6 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
   Widget build(BuildContext context) {
     List<Widget> _widgetOptions = <Widget>[
       homePage(),
-      bluetoothPage(),
       gamePage(),
       Text(
         'Index 3: Learn',
@@ -50,10 +51,6 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
           BottomNavigationBarItem(
             icon: Icon(FontAwesomeIcons.home),
             label: 'Home',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(FontAwesomeIcons.bluetooth),
-            label: 'Connect',
           ),
           BottomNavigationBarItem(
             icon: Icon(FontAwesomeIcons.play),

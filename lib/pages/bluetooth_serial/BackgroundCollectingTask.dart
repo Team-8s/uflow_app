@@ -62,8 +62,8 @@ class BackgroundCollectingTask extends Model {
         emg1Data = int.parse(AsciiDecoder().convert(myBuffer.sublist(0, 3)));
         emg2Data = int.parse(AsciiDecoder().convert(myBuffer.sublist(3, 6)));
         // print(myBuffer);
-        print('EMG1: ${ascii.decode(myBuffer.sublist(0, 3))}');
-        print('EMG2: ${ascii.decode(myBuffer.sublist(3, 6))}');
+        // print('EMG1: $emg1Data');
+        // print('EMG2: $emg2Data');
         myBuffer.clear();
         var currentData = Provider.of<EMGData>(context, listen: false);
         currentData.emg1 = emg1Data;

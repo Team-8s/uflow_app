@@ -108,7 +108,7 @@ class EMGData with ChangeNotifier {
   }
 
   set emg2(int value){
-    _emg2 = emg2;
+    _emg2 = value;
     notifyListeners();
   }
 }

@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:uflow_app/game_files/background.dart';
 import 'dart:math';
 import 'dart:async';
 import '../game_files/barriers.dart';
 import '../game_files/bird.dart';
 import '../game_files/chipmunk.dart';
+import 'background.dart';
 import '../game_files/text_assets.dart';
 
 class Game extends StatefulWidget {
@@ -16,6 +18,7 @@ class PlayPage extends State<Game> {
   static double chipmunkYaxis = 1.10;
   static double birdScore = 0;
   static double chipmunkScore = 0;
+  double backgroundX = 0;
   double time = 0;
   double birdPathI = 0;
   double countDown = 10;
@@ -40,6 +43,7 @@ class PlayPage extends State<Game> {
     gameHasStarted = true;
     Timer.periodic(Duration(milliseconds: 50), (timer) {
       time += 0.01;
+      backgroundX += 1;
       birdPathI +=0.05;
       pathYone = 0.5*sin(birdPathI)-0.5;
       countDown -= 0.05;
@@ -47,6 +51,7 @@ class PlayPage extends State<Game> {
       chipmunkHeight = 0.1*sin(birdPathI);
       print("time number is: $time");
       setState(() {
+        backgroundX += 0.1;
         birdYaxis = initalBirdHeight - birdHeight;
         chipmunkYaxis = initalChipmunkHeight - chipmunkHeight;
       });
@@ -137,8 +142,10 @@ class PlayPage extends State<Game> {
               child: Stack(
                 children: [
                   AnimatedContainer(
+                    alignment: Alignment(backgroundX, 1),
                     duration: Duration(milliseconds: 0),
-                    color: Colors.blue,
+                    // color: Colors.blue,
+                    child: MyBackground(),
                   ),
                   AnimatedContainer(
                     alignment: Alignment(pathXone, pathYone),

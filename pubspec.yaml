@@ -32,12 +32,12 @@ dependencies:
   font_awesome_flutter: ^8.4.0
   # flutter_blue: ^0.7.3
   flutter_bluetooth_serial: ^0.2.2
-  fl_chart: ^0.20.0
+  fl_chart:
   intl: ^0.17.0
   scoped_model: ^1.1.0
   # flutter_reactive_ble: ^3.0.0
   provider: ^5.0.0
-
+  flutter_sinusoidals:
 dev_dependencies:
   flutter_test:
     sdk: flutter

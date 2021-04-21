@@ -6,6 +6,8 @@ import '../game_files/bird.dart';
 import '../game_files/chipmunk.dart';
 import '../game_files/text_assets.dart';
 import 'package:flutter_sinusoidals/flutter_sinusoidals.dart';
+import 'package:provider/provider.dart';
+import 'package:uflow_app/main.dart';
 
 import 'tree.dart';
 
@@ -41,14 +43,23 @@ class PlayPage extends State<Game> {
   }
 
   void startGame() {
+    var currentData = Provider.of<EMGData>(context);
+    var currentDataCal = Provider.of<CalibrationData>(context);
+
     gameHasStarted = true;
     Timer.periodic(Duration(milliseconds: 50), (timer) {
       time += 0.01;
       birdPathI += 0.05;
 
       countDown -= 0.05;
-      birdHeight = -4.9 * time * time + 2.8 * time;
-      chipmunkHeight = 0.1 * sin(birdPathI);
+      setState(() {
+        birdHeight = 1 - (currentData.emg1 - currentDataCal.floorValueEmg1) /
+            (currentDataCal.ceilingValueEmg1 - currentDataCal.floorValueEmg1);
+        chipmunkHeight = 2 -
+            2 * (currentData.emg1 - currentDataCal.floorValueEmg1) /
+                (currentDataCal.ceilingValueEmg1 -
+                    currentDataCal.floorValueEmg1);
+      });
       print("time number is: $time");
       setState(() {
         pathYone = 0.5 * sin(1.27 * (birdPathI + 1.7)) - 0.5;

@@ -5,6 +5,9 @@ import '../game_files/barriers.dart';
 import '../game_files/bird.dart';
 import '../game_files/chipmunk.dart';
 import '../game_files/text_assets.dart';
+import 'package:flutter_sinusoidals/flutter_sinusoidals.dart';
+
+import 'tree.dart';
 
 class Game extends StatefulWidget {
   @override
@@ -17,6 +20,7 @@ class PlayPage extends State<Game> {
   static double birdScore = 0;
   static double chipmunkScore = 0;
   double time = 0;
+  double treeX = 0;
   double birdPathI = 0;
   double countDown = 10;
   double birdHeight = 0;
@@ -40,19 +44,26 @@ class PlayPage extends State<Game> {
     gameHasStarted = true;
     Timer.periodic(Duration(milliseconds: 50), (timer) {
       time += 0.01;
-      birdPathI +=0.05;
-      pathYone = 0.5*sin(birdPathI)-0.5;
+      birdPathI += 0.05;
+
       countDown -= 0.05;
       birdHeight = -4.9 * time * time + 2.8 * time;
-      chipmunkHeight = 0.1*sin(birdPathI);
+      chipmunkHeight = 0.1 * sin(birdPathI);
       print("time number is: $time");
       setState(() {
+        pathYone = 0.5 * sin(1.27 * (birdPathI + 1.7)) - 0.5;
+        if (treeX < -2) {
+          treeX = 3;
+        } else {
+          treeX -= 0.01;
+        }
+        treeX -= 0.1;
         birdYaxis = initalBirdHeight - birdHeight;
         chipmunkYaxis = initalChipmunkHeight - chipmunkHeight;
       });
 
       setState(() {
-        if (birdYaxis < pathYone + 0.10 && birdYaxis > pathYone - 0.10) {
+        if (birdYaxis < pathYone + 0.25 && birdYaxis > pathYone - 0.25) {
           birdScore = birdScore + (time);
           // print("time number is: $time");
           // print("lastTime number is: $lastTime");
@@ -136,17 +147,53 @@ class PlayPage extends State<Game> {
               flex: 6,
               child: Stack(
                 children: [
-                  AnimatedContainer(
-                    duration: Duration(milliseconds: 0),
-                    color: Colors.blue,
+                  Stack(
+                    children: [
+                      Container(
+                        alignment: Alignment(0, -1),
+                        child: Sinusoidal(
+                          reverse: true,
+                          model: const SinusoidalModel(
+                              formular: WaveFormular.normal,
+                              amplitude: 130.0,
+                              waves: 1,
+                              frequency: -.5,
+                              translate: 3.14),
+                          child: Container(
+                            height: 250,
+                            color: Colors.blue,
+                          ),
+                        ),
+                      ),
+                      Container(
+                        alignment: Alignment(0, -0.5),
+                        child: Sinusoidal(
+                          model: const SinusoidalModel(
+                            formular: WaveFormular.normal,
+                            amplitude: 130.0,
+                            waves: 1,
+                            frequency: -.5,
+                          ),
+                          child: Container(
+                            height: 572,
+                            color: Colors.blue,
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                   AnimatedContainer(
-                    alignment: Alignment(pathXone, pathYone),
+                    alignment: Alignment(treeX, 1.10),
                     duration: Duration(milliseconds: 0),
-                    child: MyBarrier(
-                      size: double.infinity,
-                    ),
+                    child: MyTree(),
                   ),
+                  // AnimatedContainer(
+                  //   alignment: Alignment(pathXone, pathYone),
+                  //   duration: Duration(milliseconds: 0),
+                  //   child: MyBarrier(
+                  //     size: double.infinity,
+                  //   ),
+                  // ),
                   AnimatedContainer(
                     alignment: Alignment(pathXtwo, pathYtwo),
                     duration: Duration(milliseconds: 0),
@@ -167,13 +214,16 @@ class PlayPage extends State<Game> {
                   Container(
                     alignment: Alignment(0, -0.35),
                     child: gameHasStarted
-                        ? Text(countDown.toStringAsPrecision(2), style:
-                        TextStyle(fontSize: 30.0, color: Colors.white),)
+                        ? Text(
+                            countDown.toStringAsPrecision(2),
+                            style:
+                                TextStyle(fontSize: 30.0, color: Colors.white),
+                          )
                         : Text(
-                      "T A P  T O  P L A Y",
-                      style:
-                      TextStyle(fontSize: 20.0, color: Colors.white),
-                    ),
+                            "T A P  T O  P L A Y",
+                            style:
+                                TextStyle(fontSize: 20.0, color: Colors.white),
+                          ),
                   ),
                 ],
               ),

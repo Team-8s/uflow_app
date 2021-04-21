@@ -182,10 +182,10 @@ class _calibrationPageState extends State<calibrationPage> {
 
           calState = CalStep.relaxing;
 
-          if (floorValueEmg1 < sensorData.emg1){
+          if (floorValueEmg1 > sensorData.emg1){
             floorValueEmg1 = sensorData.emg1;
           }
-          if (floorValueEmg2 < sensorData.emg2){
+          if (floorValueEmg2 > sensorData.emg2){
             floorValueEmg2 = sensorData.emg2;
           }
         });
@@ -205,8 +205,8 @@ class _calibrationPageState extends State<calibrationPage> {
         });
       }
       if (countDown < 0) {
-        calData.floorValueEmg1 = ceilingValueEmg1;
-        calData.floorValueEmg2 = ceilingValueEmg2;
+        calData.floorValueEmg1 = floorValueEmg1;
+        calData.floorValueEmg2 = floorValueEmg2;
         calData.ceilingValueEmg1 = ceilingValueEmg1;
         calData.ceilingValueEmg2 = ceilingValueEmg2;
         calData.calibrated = true;

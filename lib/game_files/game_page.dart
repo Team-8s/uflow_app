@@ -30,6 +30,7 @@ class PlayPage extends State<Game> {
   double initalBirdHeight = birdYaxis;
   double initalChipmunkHeight = chipmunkYaxis;
   bool gameHasStarted = false;
+
   static double pathXone = 1;
   static double pathYone = -0.25;
   static double pathXtwo = 1;
@@ -43,24 +44,29 @@ class PlayPage extends State<Game> {
   }
 
   void startGame() {
-    var currentData = Provider.of<EMGData>(context);
-    var currentDataCal = Provider.of<CalibrationData>(context);
-
+    var currentData = Provider.of<EMGData>(context, listen: false);
+    var currentDataCal = Provider.of<CalibrationData>(context, listen: false);
+    var random = new Random();
     gameHasStarted = true;
     Timer.periodic(Duration(milliseconds: 50), (timer) {
       time += 0.01;
       birdPathI += 0.05;
 
       countDown -= 0.05;
-      setState(() {
-        birdHeight = 1 - (currentData.emg1 - currentDataCal.floorValueEmg1) /
-            (currentDataCal.ceilingValueEmg1 - currentDataCal.floorValueEmg1);
-        chipmunkHeight = 2 -
-            2 * (currentData.emg1 - currentDataCal.floorValueEmg1) /
-                (currentDataCal.ceilingValueEmg1 -
-                    currentDataCal.floorValueEmg1);
-      });
-      print("time number is: $time");
+      // setState(() {
+         print("The Calibration data is ${currentDataCal.ceilingValueEmg1}, ${currentDataCal.floorValueEmg1}, ${currentDataCal.ceilingValueEmg2}, ${currentDataCal.floorValueEmg2},");
+         print("The emg1 data is ${currentData.emg1}");
+         print("The emg2 data is ${currentData.emg2}");
+      //   birdHeight = 0 - (currentData.emg1 - currentDataCal.floorValueEmg1) /
+      //       (currentDataCal.ceilingValueEmg1 - currentDataCal.floorValueEmg1);
+      //   print("The bird height is $birdHeight");
+      //   chipmunkHeight = 1 -
+      //       2 * (currentData.emg1 - currentDataCal.floorValueEmg1) /
+      //           (currentDataCal.ceilingValueEmg1 -
+      //               currentDataCal.floorValueEmg1);
+      //   print("The Chipmunk height is $chipmunkHeight");
+      // });
+      //print("time number is: $time");
       setState(() {
         pathYone = 0.5 * sin(1.27 * (birdPathI + 1.7)) - 0.5;
         if (treeX < -2) {
@@ -69,8 +75,12 @@ class PlayPage extends State<Game> {
           treeX -= 0.01;
         }
         treeX -= 0.1;
-        birdYaxis = initalBirdHeight - birdHeight;
-        chipmunkYaxis = initalChipmunkHeight - chipmunkHeight;
+        // birdYaxis = initalBirdHeight - birdHeight;
+        // chipmunkYaxis = initalChipmunkHeight - chipmunkHeight;
+        // birdYaxis = birdHeight;
+        // chipmunkYaxis = chipmunkHeight;
+        birdYaxis = pathYone + 0.0005 * random.nextInt(100);
+        chipmunkYaxis = pathYtwo + 0.0005 * random.nextInt(100);
       });
 
       setState(() {

@@ -16,7 +16,7 @@ class MyStatefulWidget extends StatefulWidget {
 
 /// This is the private State class that goes with MyStatefulWidget.
 class _MyStatefulWidgetState extends State<MyStatefulWidget> {
-  int _selectedIndex = 0;
+  int _selectedIndex = 1;
   static const TextStyle optionStyle =
       TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
 
@@ -31,17 +31,18 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
     List<Widget> _widgetOptions = <Widget>[
       homePage(),
       gamePage(),
-      Text(
-        'Index 3: Learn',
-        style: optionStyle,
-      ),
+      ResultsPage(),
       settingsPage(),
     ];
     return Scaffold(
-      // appBar: AppBar(
-      //   title: const Text('UFlow'),
-      //   backgroundColor: Colors.teal,
-      // ),
+      appBar: AppBar(
+        title: const Text('ÜFlow', style: TextStyle(fontSize: 32.0)),
+        centerTitle: true,
+        backgroundColor: Colors.blue,
+        iconTheme: IconThemeData(
+          color: Colors.blue,
+        ),
+      ),
       body: Center(
         child: _widgetOptions.elementAt(_selectedIndex),
       ),
@@ -49,16 +50,16 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
         type: BottomNavigationBarType.fixed,
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-            icon: Icon(FontAwesomeIcons.home),
-            label: 'Home',
+            icon: Icon(FontAwesomeIcons.question),
+            label: 'Help',
           ),
           BottomNavigationBarItem(
             icon: Icon(FontAwesomeIcons.play),
             label: 'Play',
           ),
           BottomNavigationBarItem(
-            icon: Icon(FontAwesomeIcons.book),
-            label: 'Learn',
+            icon: Icon(FontAwesomeIcons.chartLine),
+            label: 'Results',
           ),
           BottomNavigationBarItem(
             icon: Icon(FontAwesomeIcons.cog),
@@ -66,7 +67,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
           ),
         ],
         currentIndex: _selectedIndex,
-        selectedItemColor: Colors.teal,
+        selectedItemColor: Colors.blue,
         onTap: _onItemTapped,
       ),
     );

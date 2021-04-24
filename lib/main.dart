@@ -5,6 +5,7 @@ import 'login_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:provider/provider.dart';
 
+
 void main() => runApp(InitApp());
 
 class InitApp extends StatelessWidget {
@@ -41,7 +42,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider<CalibrationData>(create: (_) => CalibrationData(),),
       ],
           child: MaterialApp(
-        
+            debugShowCheckedModeBanner: false,
         title: _title,
         // home: MyStatefulWidget(),
               initialRoute: '/',

@@ -9,6 +9,7 @@ import 'package:flutter_sinusoidals/flutter_sinusoidals.dart';
 import 'package:provider/provider.dart';
 import 'package:uflow_app/main.dart';
 
+import 'cloud.dart';
 import 'tree.dart';
 
 class Game extends StatefulWidget {
@@ -23,6 +24,7 @@ class PlayPage extends State<Game> {
   static double chipmunkScore = 0;
   double time = 0;
   double treeX = 0;
+  double cloudX = 0;
   double birdPathI = 0;
   double countDown = 10;
   double birdHeight = 0;
@@ -54,9 +56,10 @@ class PlayPage extends State<Game> {
 
       countDown -= 0.05;
       // setState(() {
-         print("The Calibration data is ${currentDataCal.ceilingValueEmg1}, ${currentDataCal.floorValueEmg1}, ${currentDataCal.ceilingValueEmg2}, ${currentDataCal.floorValueEmg2},");
-         print("The emg1 data is ${currentData.emg1}");
-         print("The emg2 data is ${currentData.emg2}");
+      print(
+          "The Calibration data is ${currentDataCal.ceilingValueEmg1}, ${currentDataCal.floorValueEmg1}, ${currentDataCal.ceilingValueEmg2}, ${currentDataCal.floorValueEmg2},");
+      print("The emg1 data is ${currentData.emg1}");
+      print("The emg2 data is ${currentData.emg2}");
       //   birdHeight = 0 - (currentData.emg1 - currentDataCal.floorValueEmg1) /
       //       (currentDataCal.ceilingValueEmg1 - currentDataCal.floorValueEmg1);
       //   print("The bird height is $birdHeight");
@@ -72,7 +75,13 @@ class PlayPage extends State<Game> {
         if (treeX < -2) {
           treeX = 3;
         } else {
-          treeX -= 0.01;
+          treeX -= 0.05;
+        }
+        treeX -= 0.1;
+        if (cloudX < -2) {
+          cloudX = 3;
+        } else {
+          cloudX -= 0.005;
         }
         treeX -= 0.1;
         // birdYaxis = initalBirdHeight - birdHeight;
@@ -85,7 +94,7 @@ class PlayPage extends State<Game> {
 
       setState(() {
         if (birdYaxis < pathYone + 0.25 && birdYaxis > pathYone - 0.25) {
-          birdScore = birdScore + (time);
+          birdScore = birdScore + (time) / 2 * 0.99;
           // print("time number is: $time");
           // print("lastTime number is: $lastTime");
           // print("birdScore number is: $birdScore");
@@ -96,7 +105,7 @@ class PlayPage extends State<Game> {
       setState(() {
         if (chipmunkYaxis < pathYtwo + 0.10 &&
             chipmunkYaxis > pathYtwo - 0.10) {
-          chipmunkScore = chipmunkScore + (time);
+          chipmunkScore = chipmunkScore + (time) / 2 * 0.99;
           // print("time number is: $time");
           // print("lastTime number is: $lastTime");
           // print("birdScore number is: $birdScore");
@@ -106,6 +115,7 @@ class PlayPage extends State<Game> {
       });
 
       if (countDown < 0) {
+        countDown = 0;
         timer.cancel();
         _showGameOverScreen();
         // if (birdScore > birdHighScore)
@@ -171,7 +181,17 @@ class PlayPage extends State<Game> {
                   Stack(
                     children: [
                       Container(
-                        alignment: Alignment(0, -1),
+                        alignment: Alignment(0, 1),
+                        height: 500,
+                        color: Colors.red[300],
+                      ),
+                      Container(
+                        alignment: Alignment(0, -2),
+                        height: 50,
+                        color: Colors.blue,
+                      ),
+                      Container(
+                        alignment: Alignment(0, -0.75),
                         child: Sinusoidal(
                           reverse: true,
                           model: const SinusoidalModel(
@@ -181,13 +201,13 @@ class PlayPage extends State<Game> {
                               frequency: -.5,
                               translate: 3.14),
                           child: Container(
-                            height: 250,
+                            height: 270,
                             color: Colors.blue,
                           ),
                         ),
                       ),
                       Container(
-                        alignment: Alignment(0, -0.5),
+                        alignment: Alignment(0, 1),
                         child: Sinusoidal(
                           model: const SinusoidalModel(
                             formular: WaveFormular.normal,
@@ -207,6 +227,11 @@ class PlayPage extends State<Game> {
                     alignment: Alignment(treeX, 1.10),
                     duration: Duration(milliseconds: 0),
                     child: MyTree(),
+                  ),
+                  AnimatedContainer(
+                    alignment: Alignment(cloudX, -1.10),
+                    duration: Duration(milliseconds: 0),
+                    child: MyCloud(),
                   ),
                   // AnimatedContainer(
                   //   alignment: Alignment(pathXone, pathYone),

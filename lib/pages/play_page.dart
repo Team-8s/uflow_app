@@ -1,10 +1,12 @@
 import 'dart:async';
-
+import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-
-
+import '../game_files/barriers.dart';
+import '../game_files/bird.dart';
+import '../game_files/chipmunk.dart';
+import '../game_files/text_assets.dart';
 import 'calibration_page.dart';
 import 'package:provider/provider.dart';
 import 'package:uflow_app/main.dart';
@@ -15,7 +17,6 @@ import 'bluetooth_serial/BackgroundCollectedPage.dart';
 import 'bluetooth_serial/BackgroundCollectingTask.dart';
 import 'bluetooth_serial/DiscoveryPage.dart';
 import 'bluetooth_serial/SelectBondedDevicePage.dart';
-import 'package:uflow_app/game_files/game_page.dart';
 
 class gamePage extends StatefulWidget {
   @override
@@ -129,98 +130,371 @@ class _gamePageState extends State<gamePage> {
     var currentData = Provider.of<EMGData>(context);
     var calData = Provider.of<CalibrationData>(context);
     return Container(
-      color: Colors.blue,
-      width: double.infinity,
+      color: Colors.white,
       child: Container(
-        child:
-            Column(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: <
-                Widget>[
-          SizedBox(),
-          ListTile(
-            title: RaisedButton(
-              child: ((_collectingTask != null && _collectingTask.inProgress)
-                  ? const Text('Disconnect and stop background collecting')
-                  : const Text('Connect to start background collecting')),
-              onPressed: () async {
-                if (_collectingTask != null && _collectingTask.inProgress) {
-                  await _collectingTask.cancel();
-                  setState(() {
-                    /* Update for `_collectingTask.inProgress` */
-                  });
-                } else {
-                  final BluetoothDevice selectedDevice =
-                      await Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (context) {
-                        return SelectBondedDevicePage(checkAvailability: false);
+        child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              SizedBox(),
+              Container(
+                margin: EdgeInsets.fromLTRB(52.0, 30.0, 52.0, 20.0),
+                child: Card(
+                  color: (_collectingTask != null && _collectingTask.inProgress)
+                      ? Colors.green[400]
+                      : Colors.white,
+                  child: Container(
+                    decoration: BoxDecoration(
+                      border: Border.all(
+                        color: Colors.blue,
+                        width: 4.0,
+                      ),
+                      borderRadius: BorderRadius.circular(5.0),
+                    ),
+                    height: 120.0,
+                    width: 120.0,
+                    child: TextButton(
+                      child: ((_collectingTask != null &&
+                              _collectingTask.inProgress)
+                          ? const Text(
+                              'Disconnect Device',
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: Colors.black,
+                                fontSize: 22.0,
+                              ),
+                              textAlign: TextAlign.center,
+                            )
+                          : const Text(
+                              'Connect Device',
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: Colors.black,
+                                fontSize: 22.0,
+                              ),
+                              textAlign: TextAlign.center,
+                            )),
+                      onPressed: () async {
+                        if (_collectingTask != null &&
+                            _collectingTask.inProgress) {
+                          await _collectingTask.cancel();
+                          setState(() {
+                            /* Update for `_collectingTask.inProgress` */
+                          });
+                        } else {
+                          final BluetoothDevice selectedDevice =
+                              await Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (context) {
+                                return SelectBondedDevicePage(
+                                    checkAvailability: false);
+                              },
+                            ),
+                          );
+
+                          if (selectedDevice != null) {
+                            await _startBackgroundTask(context, selectedDevice);
+                            setState(() {
+                              /* Update for `_collectingTask.inProgress` */
+                            });
+                          }
+                        }
                       },
                     ),
-                  );
-
-                  if (selectedDevice != null) {
-                    await _startBackgroundTask(context, selectedDevice);
-                    setState(() {
-                      /* Update for `_collectingTask.inProgress` */
-                    });
-                  }
-                }
-              },
-            ),
-          ),
-          ListTile(
-            title: RaisedButton(
-              child: const Text('Calibrate'),
-              onPressed: (_collectingTask != null)
-                  ? () {
-                      Navigator.of(context).push(
-                        MaterialPageRoute(
-                          builder: (context) {
-                            return calibrationPage();
-                          },
-                        ),
-                      );
-                    }
-                  : null,
-            ),
-          ),
-          Card(
-            child: FlatButton(
-              onPressed: (){Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => Game()));},
-              child: Container(
-                height: 100.0,
-                width: 240.0,
-                padding: EdgeInsets.all(8.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-
-                    Text('Play Game', style: TextStyle(fontSize: 24.0),),
-                    Icon(Icons.play_arrow, size: 55.0,),
-                  ],
+                  ),
                 ),
               ),
-            ),
-          ),
-          ListTile(
-            title: RaisedButton(
-              child: const Text('Play Game'),
-              onPressed: (_collectingTask != null && calData.calibrated)
-                  ? () {
-                      Navigator.of(context).push(
-                        MaterialPageRoute(
-                          builder: (context) {
-                            return gamePage();
-                          },
+              Container(
+                margin: EdgeInsets.fromLTRB(52.0, 30.0, 52.0, 20.0),
+                child: Card(
+                  color: (_collectingTask != null && _collectingTask.inProgress)
+                      ? Colors.green[400]
+                      : Colors.transparent,
+                  child: Container(
+                    decoration: BoxDecoration(
+                      border: Border.all(
+                        color: Colors.blue,
+                        width: 4.0,
+                      ),
+                      borderRadius: BorderRadius.circular(5.0),
+                    ),
+                    height: 120.0,
+                    width: 120.0,
+                    child: TextButton(
+                      child: const Text(
+                        'Calibrate',
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black,
+                          fontSize: 22.0,
                         ),
-                      );
-                    }
-                  : null,
-            ),
-          ),
-        ]),
+                        textAlign: TextAlign.center,
+                      ),
+                      onPressed: (_collectingTask != null)
+                          ? () {
+                              Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder: (context) {
+                                    return calibrationPage();
+                                  },
+                                ),
+                              );
+                            }
+                          : null,
+                    ),
+                  ),
+                ),
+              ),
+              Container(
+                margin: EdgeInsets.fromLTRB(52.0, 30.0, 52.0, 20.0),
+                child: Card(
+                  color: (_collectingTask != null && _collectingTask.inProgress)
+                      ? Colors.green[400]
+                      : Colors.transparent,
+                  child: Container(
+                    decoration: BoxDecoration(
+                      border: Border.all(
+                        color: Colors.blue,
+                        width: 4.0,
+                      ),
+                      borderRadius: BorderRadius.circular(5.0),
+                    ),
+                    child: TextButton(
+                      onPressed: calData.calibrated
+                          ? () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => Game()));
+                            }
+                          : null,
+                      child: Container(
+                        height: 100.0,
+                        width: 240.0,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              'Play Game',
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 22.0,
+                                color: Colors.black,
+                              ),
+                              textAlign: TextAlign.center,
+                            ),
+                            Icon(
+                              Icons.play_arrow,
+                              size: 55.0,
+                              color: Colors.black,
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ]),
       ),
     );
   }
 }
 
+class Game extends StatefulWidget {
+  @override
+  PlayPage createState() => PlayPage();
+}
+
+class PlayPage extends State<Game> {
+  static double birdYaxis = 0;
+  static double chipmunkYaxis = 1.10;
+  static double birdScore = 0;
+  static double chipmunkScore = 0;
+  double time = 0;
+  double countDown = 10;
+  double birdHeight = 0;
+  double chipmunkHeight = 0;
+  double initalBirdHeight = birdYaxis;
+  double initalChipmunkHeight = chipmunkYaxis;
+  bool gameHasStarted = false;
+  static double pathXone = 1;
+  static double pathYone = -0.25;
+  static double pathXtwo = 1;
+  static double pathYtwo = 0.95;
+
+  void jump() {
+    setState(() {
+      time = 0;
+      initalBirdHeight = birdYaxis;
+    });
+  }
+
+  void startGame() {
+    gameHasStarted = true;
+    Timer.periodic(Duration(milliseconds: 50), (timer) {
+      time += 0.01;
+      countDown -= 0.05;
+      birdHeight = -4.9 * time * time + 2.8 * time;
+      chipmunkHeight = sin(0.5 * time);
+      print("time number is: $time");
+      setState(() {
+        birdYaxis = initalBirdHeight - birdHeight;
+        chipmunkYaxis = initalChipmunkHeight - chipmunkHeight;
+      });
+
+      setState(() {
+        if (birdYaxis < pathYone + 0.10 && birdYaxis > pathYone - 0.10) {
+          birdScore = birdScore + (time);
+          // print("time number is: $time");
+          // print("lastTime number is: $lastTime");
+          // print("birdScore number is: $birdScore");
+        } else {
+          birdScore = birdScore;
+        }
+      });
+      setState(() {
+        if (chipmunkYaxis < pathYtwo + 0.10 &&
+            chipmunkYaxis > pathYtwo - 0.10) {
+          chipmunkScore = chipmunkScore + (time);
+          // print("time number is: $time");
+          // print("lastTime number is: $lastTime");
+          // print("birdScore number is: $birdScore");
+        } else {
+          chipmunkScore = chipmunkScore;
+        }
+      });
+
+      if (countDown < 0) {
+        timer.cancel();
+        _showGameOverScreen();
+        // if (birdScore > birdHighScore)
+        //   {birdHighScore = birdScore;}
+      }
+    });
+  }
+
+  void _showGameOverScreen() {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text('GAME OVER'),
+            content: Text('Bird: ' +
+                birdScore.toString() +
+                ' Chipmunk: ' +
+                chipmunkScore.toString()),
+            actions: <Widget>[
+              FlatButton(
+                child: Text('Done'),
+                onPressed: () {
+                  setState(() {
+                    gameHasStarted = false;
+                    birdYaxis = 0;
+                    chipmunkYaxis = 1.10;
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => gamePage()));
+                  });
+                },
+              )
+            ],
+          );
+        });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    birdYaxis = 0;
+    chipmunkYaxis = 1.10;
+    birdScore = 0;
+    chipmunkScore = 0;
+  }
+
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: () {
+        if (gameHasStarted) {
+          jump();
+        } else {
+          startGame();
+        }
+      },
+      child: Scaffold(
+        body: Column(
+          children: [
+            Expanded(
+              flex: 6,
+              child: Stack(
+                children: [
+                  AnimatedContainer(
+                    duration: Duration(milliseconds: 0),
+                    color: Colors.blue,
+                  ),
+                  AnimatedContainer(
+                    alignment: Alignment(pathXone, pathYone),
+                    duration: Duration(milliseconds: 0),
+                    child: MyBarrier(
+                      size: 10.0,
+                    ),
+                  ),
+                  AnimatedContainer(
+                    alignment: Alignment(pathXtwo, pathYtwo),
+                    duration: Duration(milliseconds: 0),
+                    child: MyBarrier(
+                      size: 10.0,
+                    ),
+                  ),
+                  AnimatedContainer(
+                    alignment: Alignment(-0.5, birdYaxis),
+                    duration: Duration(milliseconds: 0),
+                    child: MyBird(),
+                  ),
+                  AnimatedContainer(
+                    alignment: Alignment(-0.5, chipmunkYaxis),
+                    duration: Duration(milliseconds: 0),
+                    child: MyChipmunk(),
+                  ),
+                  Container(
+                    alignment: Alignment(0, -0.35),
+                    child: gameHasStarted
+                        ? Text(countDown.toString())
+                        : Text(
+                            "T A P  T O  P L A Y",
+                            style:
+                                TextStyle(fontSize: 20.0, color: Colors.white),
+                          ),
+                  ),
+                ],
+              ),
+            ),
+            Container(
+              height: 15.0,
+              color: Colors.green,
+            ),
+            Expanded(
+              child: Container(
+                height: 200.0,
+                color: Colors.brown,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    ScoreDisplay(
+                      scoreType: 'BIRD SCORE',
+                      score: birdScore,
+                    ),
+                    ScoreDisplay(
+                      scoreType: 'CHIPMUNK SCORE',
+                      score: chipmunkScore,
+                    ),
+                  ],
+                ),
+              ),
+            )
+          ],
+        ),
+      ),
+    );
+  }
+}

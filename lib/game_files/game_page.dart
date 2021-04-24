@@ -91,12 +91,12 @@ class PlayPage extends State<Game> {
         if (countDown > 12.6){
           birdYaxis = pathYone + 0.01 * random.nextInt(100);
         } else{
-        birdYaxis = pathYone + 0.0005 * random.nextInt(100);}
+        birdYaxis = pathYone + 0.001 * random.nextInt(100);}
         chipmunkYaxis = pathYtwo + 0.001 * random.nextInt(100);
       });
 
       setState(() {
-        if (birdYaxis < pathYone + 0.25 && birdYaxis > pathYone - 0.25) {
+        if (birdYaxis < pathYone + 0.07 && birdYaxis > pathYone - 0.07) {
           birdScore = birdScore + (time) / 4.5 * 0.99;
           // print("time number is: $time");
           // print("lastTime number is: $lastTime");
@@ -106,8 +106,8 @@ class PlayPage extends State<Game> {
         }
       });
       setState(() {
-        if (chipmunkYaxis < pathYtwo + 0.10 &&
-            chipmunkYaxis > pathYtwo - 0.10) {
+        if (chipmunkYaxis < pathYtwo + 0.1 &&
+            chipmunkYaxis > pathYtwo - 0.1) {
           chipmunkScore = chipmunkScore + (time) / 4.5 * 0.99;
           // print("time number is: $time");
           // print("lastTime number is: $lastTime");

@@ -89,7 +89,7 @@ class PlayPage extends State<Game> {
         // birdYaxis = birdHeight;
         // chipmunkYaxis = chipmunkHeight;
         birdYaxis = pathYone + 0.0005 * random.nextInt(100);
-        chipmunkYaxis = pathYtwo + 0.0005 * random.nextInt(100);
+        chipmunkYaxis = pathYtwo + 0.001 * random.nextInt(100);
       });
 
       setState(() {
@@ -185,13 +185,13 @@ class PlayPage extends State<Game> {
                         height: 500,
                         color: Colors.red[300],
                       ),
+                      // Container(
+                      //   alignment: Alignment(0, -2),
+                      //   height: 50,
+                      //   color: Colors.blue,
+                      // ),
                       Container(
-                        alignment: Alignment(0, -2),
-                        height: 50,
-                        color: Colors.blue,
-                      ),
-                      Container(
-                        alignment: Alignment(0, -0.75),
+                        alignment: Alignment(0, -1.15),
                         child: Sinusoidal(
                           reverse: true,
                           model: const SinusoidalModel(
@@ -201,13 +201,13 @@ class PlayPage extends State<Game> {
                               frequency: -.5,
                               translate: 3.14),
                           child: Container(
-                            height: 270,
+                            height: 300,
                             color: Colors.blue,
                           ),
                         ),
                       ),
                       Container(
-                        alignment: Alignment(0, 1),
+                        alignment: Alignment(0, 1.5),
                         child: Sinusoidal(
                           model: const SinusoidalModel(
                             formular: WaveFormular.normal,
@@ -216,7 +216,7 @@ class PlayPage extends State<Game> {
                             frequency: -.5,
                           ),
                           child: Container(
-                            height: 572,
+                            height: 500,
                             color: Colors.blue,
                           ),
                         ),

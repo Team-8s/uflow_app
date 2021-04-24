@@ -180,10 +180,13 @@ class PlayPage extends State<Game> {
                 children: [
                   Stack(
                     children: [
-                      Container(
+
+                    AnimatedContainer(
+                      duration: Duration(milliseconds: 1000),
                         alignment: Alignment(0, 1),
                         height: 500,
-                        color: Colors.red[300],
+
+                        color: gameHasStarted ? Colors.red[300] : Colors.blue,
                       ),
                       // Container(
                       //   alignment: Alignment(0, -2),
@@ -243,8 +246,11 @@ class PlayPage extends State<Game> {
                   AnimatedContainer(
                     alignment: Alignment(pathXtwo, pathYtwo),
                     duration: Duration(milliseconds: 0),
-                    child: MyBarrier(
-                      size: double.infinity,
+                    child: AnimatedContainer(
+                      duration: Duration(milliseconds: 1000),
+                      width: double.infinity,
+                      height: 10.0,
+                      color: gameHasStarted ? Colors.red[300] : Colors.blue,
                     ),
                   ),
                   AnimatedContainer(
